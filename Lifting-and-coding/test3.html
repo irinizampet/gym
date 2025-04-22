@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Επιλογή Προγραμμάτων</title>
+    <style>
+        /* Κάποια βασικά στυλ για να γίνει πιο ευανάγνωστο */
+        .program-container {
+            margin: 20px;
+        }
+        .program-item {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .program-item input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Επιλέξτε τα Προγράμματά σας</h1>
+    
+    <form method="POST" action="{% url 'submit_program_selection' %}" id="program-form">
+        {% csrf_token %}
+        
+        <div class="program-container">
+            <div class="program-item">
+                <label>
+                    <input type="checkbox" name="programs" value="1" class="program-check" data-capacity="20">
+                    Γιόγκα - Δευτέρα 10:00 - 11:00 (Χωρητικότητα: 20)
+                </label>
+            </div>
+            <div class="program-item">
+                <label>
+                    <input type="checkbox" name="programs" value="2" class="program-check" data-capacity="15">
+                    Pilates - Τετάρτη 11:00 - 12:00 (Χωρητικότητα: 15)
+                </label>
+            </div>
+            <div class="program-item">
+                <label>
+                    <input type="checkbox" name="programs" value="3" class="program-check" data-capacity="10">
+                    Ζωηρή Γυμναστική - Παρασκευή 17:00 - 18:00 (Χωρητικότητα: 10)
+                </label>
+            </div>
+            <!-- Προσθήκη περισσότερων προγραμμάτων ανάλογα με τις ανάγκες -->
+        </div>
+        
+        <div>
+            <p>Επιλέξατε <span id="program-count">0</span> προγράμματα.</p>
+            <p>Υπολειπόμενη Χωρητικότητα: <span id="remaining-capacity">20</span></p>
+        </div>
+        
+        <button type="submit">Επιβεβαίωση Επιλογών</button>
+    </form>
+
+    <script>
+        // Αρχικοποίηση μεταβλητών
+        let selectedPrograms = [];
+        let remainingCapacity = 20; // Χωρητικότητα που θα αφαιρείται με κάθε επιλογή
+
+        const programCountSpan = document.getElementById('program-count');
+        const remainingCapacitySpan = document.getElementById('remaining-capacity');
+        const programChecks = document.querySelectorAll('.program-check');
+        
+        // Παρακολούθηση αλλαγών στις επιλογές του χρήστη
+        programChecks.forEach(checkBox => {
+            checkBox.addEventListener('change', function() {
+                updateSelection(this);
+            });
+        });
+
+        // Συνάρτηση για την ενημέρωση των επιλεγμένων προγραμμάτων και της χωρητικότητας
+        function updateSelection(checkbox) {
+            const programId = checkbox.value;
+            const programCapacity = parseInt(checkbox.getAttribute('data-capacity'));
+            
+            if (checkbox.checked) {
+                selectedPrograms
+            }
+        }
+        
