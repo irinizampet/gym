@@ -13,3 +13,6 @@ def login_view(request):
         else:
             messages.error(request, 'Λάθος όνομα χρήστη ή κωδικός.')
     return render(request, 'login.html')
+
+def dashboard_view(request):
+    return render(request, 'περιβαλλονχρηστη.html')
