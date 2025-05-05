@@ -102,6 +102,8 @@ Mock-up:![alt text](προφιλ.png)
 
 4. Django
 
+Για την 1η λειτουργία Django κάναμε το Login με αυτούς τους users:
+
 superuser: lenia
 users: irini , epameinondas
 
