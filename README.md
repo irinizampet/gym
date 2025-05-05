@@ -97,6 +97,7 @@ Mock-up:![alt text](προφιλ.png)
 
 3. Σχήμα βάσης δεδομένων 
 
+![alt text](<Gym.jpg>)
 
 
 4. Django
