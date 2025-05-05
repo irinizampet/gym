@@ -83,7 +83,14 @@ Mock-up: ![alt text](image-9.png)
 
 
 
+3. Σχήμα βάσης δεδομένων 
 
 
 
+4. Django
+
+superuser: lenia
+users: irini , epameinondas
+
+password: papaki12345678
 
