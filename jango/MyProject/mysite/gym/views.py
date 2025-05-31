@@ -11,8 +11,8 @@ def login_view(request):
             login(request, user)
             return redirect('περιβαλλονχρηστη')  # άλλαξέ το με το όνομα της σελίδας μετά το login
         else:
-            messages.error(request, 'Λάθος όνομα χρήστη ή κωδικός.')
+            messages.error(request, 'Λάθος στοιχεία σύνδεσης')
     return render(request, 'login.html')
 
 def dashboard_view(request):
-    return render(request, 'περιβαλλονχρηστη.html')
+    return render(request, 'περιβαλλονχρηστη.html') 
