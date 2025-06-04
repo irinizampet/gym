@@ -31,3 +31,12 @@ class MemberSignupForm(forms.Form):
         )
         member.save()
         return member
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(label="Email")
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not Member.objects.filter(email=email).exists():
+            raise forms.ValidationError("Δεν βρέθηκε χρήστης με αυτό το email.")
+        return email
