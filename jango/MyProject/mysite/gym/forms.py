@@ -1,0 +1,33 @@
+from django import forms
+from .models import Member
+from django.contrib.auth.hashers import make_password
+
+class MemberSignupForm(forms.Form):
+    name = forms.CharField(max_length=30)
+    surname = forms.CharField(max_length=30)
+    phone_num = forms.CharField(max_length=15)
+    email = forms.EmailField()
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Επιβεβαίωση Κωδικού")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+        if password != password_confirm:
+            raise forms.ValidationError("Οι κωδικοί δεν ταιριάζουν.")
+        return cleaned_data
+
+    def save(self):
+        data = self.cleaned_data
+        member = Member(
+            name=data['name'],
+            surname=data['surname'],
+            phone_num=data['phone_num'],
+            email=data['email'],
+            username=data['username'],
+            password=make_password(data['password'])
+        )
+        member.save()
+        return member

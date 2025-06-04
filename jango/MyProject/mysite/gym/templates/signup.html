@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Εγγραφή</title>
+</head>
+<body>
+    <header>
+        <h1>Δημιουργία Λογαριασμού</h1>
+    </header>
+
+    <div class="φόρμα"> 
+       <form method="post"> {% csrf_token %}
+
+         <input type="text" name="name" placeholder="Όνομα" required><br>
+         <input type="text" name="surname" placeholder="Επώνυμο" required><br>
+         <input type="text" name="phone_num" placeholder="Τηλέφωνο" required><br>
+         <input type="text" name="username" placeholder="Όνομα χρήστη" required><br>
+         <input type="email" name="email" placeholder="Email" required><br>
+         <input type="password" name="password" placeholder="Κωδικός" required><br>
+         <input type="password" name="password_confirm" placeholder="Επιβεβαίωση Κωδικού" required><br>
+         <input type="submit" value="Εγγραφή">
+       </form>
+    </div>
+
+    <a href="{% url 'login' %}">Σύνδεση</a>
+</body>
+</html>

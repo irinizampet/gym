@@ -16,3 +16,16 @@ def login_view(request):
 
 def dashboard_view(request):
     return render(request, 'περιβαλλονχρηστη.html') 
+
+from .forms import MemberSignupForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = MemberSignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # αφού γίνει η εγγραφή, τον στέλνεις στη login σελίδα
+    else:
+        form = MemberSignupForm()
+    return render(request, 'signup.html', {'form': form})
+
