@@ -1,13 +1,13 @@
 from django.db import models
 
-class Member(models.Model):
-    name = models.CharField(max_length=30)
-    surname = models.CharField(max_length=30)
-    username = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=30)
-    pnumber = models.CharField(max_length=10)
-    email = models.EmailField(unique=True)
-    reg_date = models.DateTimeField(auto_now_add=True)
+#class Member(models.Model):
+#    name = models.CharField(max_length=30)
+ #   surname = models.CharField(max_length=30)
+ #   username = models.CharField(max_length=20, unique=True)
+ #   password = models.CharField(max_length=30)
+ #   pnumber = models.CharField(max_length=10)
+ #   email = models.EmailField(unique=True)
+#    reg_date = models.DateTimeField(auto_now_add=True)#
 
 
 class Subscription(models.Model):
@@ -41,7 +41,6 @@ class Member(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
-    age = models.IntegerField(null=True)
     registration_date = models.DateTimeField(auto_now_add=True)
     phone_num = models.CharField(max_length=15,default="")
     email = models.EmailField(unique=True)
