@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -51,3 +52,10 @@ def password_reset_view(request):
     else:
         form = PasswordResetForm()
     return render(request, 'passreset.html', {'form': form})
+
+from .models import Member
+
+@login_required(login_url='login')
+def dashboard_view(request):
+    member = Member.objects.get(username=request.user.username)
+    return render(request, 'περιβαλλονχρηστη.html', {'member': member})
