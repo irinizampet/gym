@@ -11,11 +11,6 @@
     <section class="Σύνδεσηη">
         <h2>Συνδέσου στον λογαριασμό σου</h2>
         <p>Συνδέσου και κλείσε την επόμενη προπόνηση σου, ενημερώσου για τα νέα, δες το ιστορικό των προπονήσεων σου</p>
-        {% if messages %}
-            {% for message in messages %}
-                 <p style="color:red;">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
         <form method="post" action="">
             {% csrf_token %}
             <input type="text" name="username" placeholder="username" required>
@@ -23,8 +18,8 @@
             <input type="submit" value="Submit">
         </form>
         <div class="links">
-            <a href="{% url 'passreset' %}">Ξέχασα τον κωδικό μου</a><br>
-            <a href="{% url 'signup' %}">Εγγραφή</a>
+            <a href="ξεχασμενοςκωδικος.html">Ξέχασα τον κωδικό μου</a><br>
+            <a href="signup.html">Εγγραφή</a>
         </div>
     </section>
     </body>
