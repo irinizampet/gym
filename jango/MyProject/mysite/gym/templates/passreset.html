@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ανάκτηση Κωδικού</title>
+</head>
+<body>
+    <header>
+        <h1>Ανάκτηση Κωδικού</h1>
+    </header>
+    <div class="code">
+        <p>Εισάγετε το email σας για να λάβετε οδηγίες επαναφοράς του κωδικού πρόσβασης:</p>
+       <form method="post">
+         {% csrf_token %}
+         <input type="email" name="email" placeholder="Email" required><br>
+         <input type="submit" value="Αποστολή">
+       </form>
+    </div>
+    <a href="{% url 'login' %}">Επιστροφή στη σύνδεση</a>
+</body>
+</html>
