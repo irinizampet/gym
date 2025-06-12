@@ -19,11 +19,11 @@
         </section> 
         <nav class="main-nav">
             <ul>
-                <li><a href="{% url 'passreset' %}" class="φιλοσοφία">Ποιοί είμαστε</a></li>
-                <li><a href="Πρόγραμμα.html" class="προγράμματα">Προγράμματα</a></li>
-                <li><a href="Προπονητές.html" class="προπονητές">Προπονητές</a></li>
-                <li><a href="contact.html" class="επικοινωνία">Επικοινωνία</a></li>
-                <a href="{% url 'login' %}">Σύνδεση</a>
+                <li><a href="{% url 'filosofia' %}">Ποιοι Είμαστε</a></li>
+                <li><a href="{% url 'Πρόγραμμα' %}">Προγράμματα</a></li>
+                <li><a href="{% url 'Προπονητές' %}">Προπονητές</a></li>
+                <li><a href="{% url 'contact' %}">Επικοινωνία</a></li>
+                <li><a href="{% url 'login' %}">Σύνδεση</a></li>
             </ul>
         </nav>
         <main>
@@ -43,21 +43,11 @@
             </ul>
         </main>
         <section class="Σύνδεσηη">
-            <h2>Συνδέσου στον λογαριασμό σου</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat eaque vitae fuga, reiciendis deleniti 
-                voluptatum eum modi laborum consequatur! Unde expedita maxime.</p>
-            <form>
-                <input type="text" name="username" placeholder="username" required>
-                <input type="password" name="password" placeholder="password">
-            </form>
+            <h2>Θέλεις να γίνεις μέλος της ομάδας μας;</h2>
+            <h2>Εγγράψου πατώντας <a href="{% url 'signup' %}"> εδώ</a>!</h2>
         </section>
         <footer>
-            <p class="copyright">copyright 2025 lifting and coding</p>
+            <p class="copyright">copyright © 2025 lifting and coding</p>
         </footer>
-        
-
-  
-        
-
     </body>
 </html>

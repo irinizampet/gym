@@ -7,5 +7,10 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('passreset/', views.password_reset_view, name='passreset'),
     path('', views.index_view, name='index'),
+    path('filosofia/', views.filosofia_view, name='filosofia'),
+    path('prop/', views.προπονητες_view, name='Προπονητές'),
+    path('contact/', views.contact_view, name='contact'),
+    path('programmaaaa/', views.Programmata_view, name='Πρόγραμμα'),
 ]
+
 

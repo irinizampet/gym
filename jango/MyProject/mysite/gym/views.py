@@ -63,3 +63,15 @@ def dashboard_view(request):
 def index_view(request):
     return render(request, 'index.html')  # ή το αρχικό σου template
 
+def filosofia_view(request):
+    return render(request, 'filosofia.html')
+
+def contact_view(request):
+    return render(request, 'contact.html')
+
+def Programmata_view(request):
+    return render(request, 'Πρόγραμμα.html')
+
+def προπονητες_view(request):
+    return render(request, 'Προπονητές.html')
+
