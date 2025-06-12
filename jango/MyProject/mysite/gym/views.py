@@ -59,3 +59,7 @@ from .models import Member
 def dashboard_view(request):
     member = Member.objects.get(username=request.user.username)
     return render(request, 'περιβαλλονχρηστη.html', {'member': member})
+
+def index_view(request):
+    return render(request, 'index.html')  # ή το αρχικό σου template
+
