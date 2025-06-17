@@ -24,11 +24,11 @@
         </section>
         <nav class="main-nav">
             <ul>
-                <li><a href="profil.html" class="προφιλ">Το προφίλ σου</a></li>
-                <li><a href="Κρατηση.html" class="Προγράμμα">Προγράμματα</a></li>
-                <li><a href="training-history.html" class="Ιστορικό Προπονήσεων">Ιστορικό Προπονήσεων</a></li>
-                <li><a href="announcement.html" class="Ανακοινώσεις">Ανακοινώσεις</a></li>
-                <li><a href="index.html" class="Αποσύνδεση">Αποσύνδεση</a></li>
+                <li><a href="{% url 'profil' %}" class="προφιλ">Το προφίλ σου</a></li>
+                <li><a href="{% url 'Κρατηση' %}" class="Προγράμμα">Προγράμματα</a></li>
+                <li><a href="{% url 'training-history' %}" class="Ιστορικό Προπονήσεων">Ιστορικό Προπονήσεων</a></li>
+                <li><a href="{% url 'anouncement' %}" class="Ανακοινώσεις">Ανακοινώσεις</a></li>
+                <li><a href="{% url 'index' %}" class="Αποσύνδεση">Αποσύνδεση</a></li>
             </ul>
         </nav>
         <footer>
