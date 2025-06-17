@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Αγορά Προπονήσεων</title>
+    <style>
+        body, ul, li, h1, h2, a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+        }
+
+        header {
+            background-color: rgb(76, 182, 220);
+            padding: 1px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+
+        header h1 {
+            border: 4px solid rgb(76, 73, 91);
+            padding: 6px 6px;
+            display: inline-block;
+            border-radius: 10px;
+        }
+
+        main {
+            max-width: 100%;
+            width: 800px;
+            margin: 120px auto;
+            padding: 0 40px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .package {
+            border: 2px solid rgb(76, 182, 220);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px auto;
+            width: 300px;
+            cursor: pointer;
+            background-color: #f4f4f4;
+        }
+
+        .selected {
+            background-color: rgb(76, 182, 220);
+            color: white;
+        }
+
+        form input {
+            margin: 5px 0;
+            padding: 10px 20px;
+            font-size: 24px;
+            border-radius: 20px;
+            border: 4px solid rgba(125, 207, 233, 0.532);
+        }
+
+        form button {
+            margin-top: 15px;
+            padding: 10px 30px;
+            font-size: 20px;
+            border-radius: 15px;
+            background-color: rgb(76, 182, 220);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            font-size: 20px;
+            color: green;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: rgb(76, 182, 220);
+            color: white;
+            padding: 1px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Αγορά Προπονήσεων</h1>
+    </header>
+    <main>
+        <h2>Επίλεξε Πακέτο</h2>
+        <div class="package" onclick="selectPackage(10)">10 Προπονήσεις</div>
+        <div class="package" onclick="selectPackage(20)">20 Προπονήσεις</div>
+        <div class="package" onclick="selectPackage(30)">30 Προπονήσεις</div>
+
+        <form id="paymentForm" onsubmit="return handleSubmit(event)">
+            <input type="text" id="name" placeholder="Όνομα" required><br>
+            <input type="text" id="surname" placeholder="Επώνυμο" required><br>
+            <input type="text" id="card" placeholder="Αριθμός Κάρτας (16 ψηφία)" maxlength="16" required><br>
+            <button type="submit" disabled id="payButton">Πληρωμή</button>
+        </form>
+
+        <div class="message" id="message"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 GymApp. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selected = null;
+        let existingSessions = 0; // από backend ή τοπικά
+
+        function selectPackage(sessions) {
+            const packages = document.querySelectorAll('.package');
+            packages.forEach(p => p.classList.remove('selected'));
+            event.target.classList.add('selected');
+            selected = sessions;
+            document.getElementById('payButton').disabled = false;
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const cardNumber = document.getElementById('card').value;
+            const message = document.getElementById('message');
+
+            if (!selected) {
+                message.style.color = 'red';
+                message.innerText = 'Παρακαλώ επίλεξε ένα πακέτο.';
+                return false;
+            }
+
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                message.style.color = 'red';
+                message.innerText = 'Ο αριθμός κάρτας πρέπει να είναι 16 ψηφία.';
+                return false;
+            }
+
+            const totalSessions = existingSessions + selected;
+            message.style.color = 'green';
+            message.innerText = `Πληρωμή επιτυχής! Έχετε συνολικά ${totalSessions} προπονήσεις διαθέσιμες.`;
+
+            existingSessions = totalSessions; // ενημέρωση για μελλοντική χρήση
+            return false;
+        }
+    </script>
+</body>
+</html>
