@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Subscription, Payment, History
+from django.db.models import Sum
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -76,3 +78,64 @@ def Programmata_view(request):
 def προπονητες_view(request):
     return render(request, 'Προπονητές.html')
 
+def profil_view(request):
+    return render(request, 'profil.html')
+
+def krathsh_view(request):
+    return render(request, 'Κράτηση.html')
+
+def history_view(request):
+    return render(request, 'training-history.html')
+
+def announcements_view(request):
+    return render(request, 'announcement.html')
+
+def profil_view(request):
+    return render(request, 'profil.html')
+
+from django.shortcuts    import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db.models    import Sum
+from .models             import Subscription, Payment, History
+
+PRICE_PER_SESSION = 10
+
+@login_required
+def payment_view(request):
+    # --- Υπολογισμός ήδη αγορασμένων εισόδων ---
+    purchased = History.objects.filter(
+        user=request.user, sub__isnull=False
+    ).aggregate(total=Sum('sub__avail_participations'))['total'] or 0
+
+    # --- Φόρτωση πακέτων και κόστη ---
+    subscriptions = Subscription.objects.all()
+    costs = {
+        sub.sub_id: sub.avail_participations * PRICE_PER_SESSION
+        for sub in subscriptions
+    }
+
+    error = None
+    selected = None
+
+    if request.method == 'POST':
+        selected = request.POST.get('sub_id')
+        if not selected:
+            error = "Πρέπει να επιλέξεις ένα πακέτο."
+        else:
+            sub = get_object_or_404(Subscription, pk=selected)
+            # Δημιουργούμε Payment και το signal γράφει History
+            Payment.objects.create(
+                user=request.user,
+                subscription=sub,
+                amount=costs[sub.sub_id]
+            )
+            return redirect('profile')  # ή όπου θες να πας μετά
+
+    # GET (ή λάθος POST): στείλε όλα τα δεδομένα στο template
+    return render(request, 'payment.html', {
+        'subscriptions': subscriptions,
+        'purchased': purchased,
+        'costs': costs,
+        'error': error,
+        'selected': selected,
+    })

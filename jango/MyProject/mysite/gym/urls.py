@@ -11,6 +11,12 @@ urlpatterns = [
     path('prop/', views.προπονητες_view, name='Προπονητές'),
     path('contact/', views.contact_view, name='contact'),
     path('programmaaaa/', views.Programmata_view, name='Πρόγραμμα'),
+    path('payment/', views.payment_view, name='payment'),
+    path('profil/', views.profil_view, name='profil'),
+    path('krathsh/', views.krathsh_view, name='Κράτηση'),
+    path('history/', views.history_view, name='training-history'),
+    path('announcement/', views.announcements_view, name='announcement'),
+
 ]
 
 
