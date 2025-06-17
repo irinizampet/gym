@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Subscription, Payment, History
 
 def login_view(request):
     if request.method == 'POST':
