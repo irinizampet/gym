@@ -1,9 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-# gym/admin.py
-
-from django.contrib import admin
 from .models import (
     Subscription,
     Payment,
@@ -13,48 +8,47 @@ from .models import (
     Coach,
     Class,
     History,
-    Booking,
-    Cancellation
 )
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('sub_id', 'avail_participations')
+    list_display = ('sub_id', 'name', 'avail_participations')
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('tran_id', 'sub', 'amount', 'tran_date')
-    list_filter = ('tran_date',)
+    list_display = ('tran_id', 'user', 'subscription', 'amount', 'tran_date')
+    list_filter  = ('subscription', 'tran_date')
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'username', 'email', 'sub', 'tran', 'registration_date')
-    search_fields = ('username', 'email', 'name', 'surname')
+    list_display   = (
+        'id', 'username', 'email',
+        'first_name', 'last_name',
+        'registration_date', 'phone_num'
+    )
+    search_fields  = ('username', 'email', 'first_name', 'last_name')
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
 
-@admin.register(Coach)
-class CoachAdmin(admin.ModelAdmin):
-    list_display = ('em_id', 'name', 'surname', 'email')
-
 @admin.register(Secretary)
 class SecretaryAdmin(admin.ModelAdmin):
-    list_display = ('em_id', 'name', 'surname', 'email')
+    # Secretary κληρονομεί απευθείας τα πεδία του Employee
+    list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
+
+@admin.register(Coach)
+class CoachAdmin(admin.ModelAdmin):
+    # Coach κληρονομεί απευθείας τα πεδία του Employee
+    list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
 
 @admin.register(Class)
 class ClassAdmin(admin.ModelAdmin):
-    list_display = ('cl_id', 'name', 'dates', 'capacity', 'em')
+    # το πεδίο στο model λέγεται `em` και `date_time`
+    list_display = ('cl_id', 'em', 'name', 'date_time', 'capacity')
+    list_filter  = ('em',)
 
 @admin.register(History)
 class HistoryAdmin(admin.ModelAdmin):
-    list_display = ('h_id', 'user', 'cl', 'date')
-
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    list_display = ('h_id', 'em_id', 'name', 'surname')
-
-@admin.register(Cancellation)
-class CancellationAdmin(admin.ModelAdmin):
-    list_display = ('h_id', 'em_id', 'name', 'surname')
+    list_display = ('h_id', 'user', 'sub', 'cl', 'date')
+    list_filter  = ('sub', 'cl', 'date')
