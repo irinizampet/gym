@@ -3,27 +3,28 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 class Subscription(models.Model):
-    sub_id = models.AutoField(primary_key=True)
     avail_participations = models.IntegerField()
-
     def __str__(self):
-        return f"Subscription {self.sub_id} - avail: {self.avail_participations}"
-
+        return f"Subscription {self.pk} – avail: {self.avail_participations}"
 
 class Payment(models.Model):
-    tran_id = models.AutoField(primary_key=True)
-    # Όπως στο διάγραμμα, κάθε Payment συνδέεται με μία Subscription (FK)
-    sub = models.ForeignKey(
-        Subscription,
-        on_delete=models.CASCADE,
-        db_column="sub_id",      # για να μοιάζει το όνομα με το διάγραμμα
-        related_name="payments"
-    )
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    tran_date = models.DateTimeField()
+    tran_id      = models.AutoField(primary_key=True)
+    user         = models.ForeignKey(
+                       settings.AUTH_USER_MODEL,
+                       on_delete=models.CASCADE,
+                       related_name="payments"
+                   )
+    subscription = models.ForeignKey(
+                       Subscription,
+                       on_delete=models.CASCADE,
+                       db_column="sub_id",         # αν θες να κρατήσεις το ίδιο όνομα στη βάση
+                       related_name="payments"
+                   )
+    amount       = models.DecimalField(max_digits=10, decimal_places=2)
+    tran_date    = models.DateTimeField()
 
     def __str__(self):
-        return f"Payment {self.tran_id} - €{self.amount}"
+        return f"Payment {self.tran_id} – €{self.amount}"
 
 
 #
