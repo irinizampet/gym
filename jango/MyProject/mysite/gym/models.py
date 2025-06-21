@@ -1,99 +1,65 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
-from django.db.models import Q, CheckConstraint, UniqueConstraint
-from django.core.exceptions import ValidationError
-
+from django.contrib.auth.models import User
 
 class Subscription(models.Model):
-    sub_id               = models.AutoField(primary_key=True)
-    name                 = models.CharField(max_length=50)
-    avail_participations = models.PositiveIntegerField()
+    sub_id = models.AutoField(primary_key=True)
+    avail_participations = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name} ({self.avail_participations})"
+        return f"Subscription {self.sub_id} - avail: {self.avail_participations}"
 
 
 class Payment(models.Model):
-    """
-    Καταγράφει την πληρωμή ενός πακέτου από χρήστη.
-    """
-    tran_id       = models.AutoField(primary_key=True)
-    user          = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    tran_id = models.AutoField(primary_key=True)
+    # Όπως στο διάγραμμα, κάθε Payment συνδέεται με μία Subscription (FK)
+    sub = models.ForeignKey(
+        Subscription,
         on_delete=models.CASCADE,
+        db_column="sub_id",      # για να μοιάζει το όνομα με το διάγραμμα
         related_name="payments"
     )
-    user        = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="payments",
-        null=True,
-        blank=True,
-    )
-    subscription  = models.ForeignKey(
-        Subscription,
-        on_delete=models.PROTECT,
-        related_name="payments",
-        null=True,
-        blank=True,
-    )
-    amount        = models.DecimalField(max_digits=8, decimal_places=2)
-    tran_date     = models.DateTimeField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    tran_date = models.DateTimeField()
 
     def __str__(self):
-        return f"Payment #{self.tran_id} by {self.user}"
+        return f"Payment {self.tran_id} - €{self.amount}"
 
 
 #
 # 3) Member
 #
-#class Member(models.Model):
- #   user_id = models.AutoField(primary_key=True)
-  # surname = models.CharField(max_length=30)
-   # registration_date = models.DateTimeField(auto_now_add=True)
-    #phone_num = models.CharField(max_length=15,default="")
-    #email = models.EmailField(unique=True)
-    #username = models.CharField(max_length=20, unique=True)
-   # password = models.CharField(max_length=128)
-    # Στο διάγραμμα, Member έχει ένα FK προς Subscription (sub_id)
-    #sub = models.ForeignKey(
-     #   Subscription,
-      #  on_delete=models.SET_NULL,
-       # null=True,
-        #blank=True,
-      #  db_column="sub_id",
-       # related_name="members"
-    #)
-    # Και ένα FK προς Payment (tran_id)
-   # tran = models.ForeignKey(
-    #    Payment,
-     #   on_delete=models.SET_NULL,
-      #  null=True,
-       # blank=True,
-        #db_column="tran_id",
-       # related_name="members"
-    #)
-
-    #def __str__(self):
-     #   return self.username
-
-     # gym/models.py
-
-class Member(AbstractUser):
-    """
-    Custom user: κληρονομεί όλα τα πεδία του AbstractUser
-    (username, password, email, first_name, last_name, is_staff, is_active, κλπ)
-    και προσθέτει:
-      - registration_date
-      - phone_num
-    """
+class Member(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    surname = models.CharField(max_length=30)
+    age = models.IntegerField(null=True)
     registration_date = models.DateTimeField(auto_now_add=True)
-    phone_num         = models.CharField(max_length=15, blank=True)
+    phone_num = models.CharField(max_length=15,default="")
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=128)
+    # Στο διάγραμμα, Member έχει ένα FK προς Subscription (sub_id)
+    sub = models.ForeignKey(
+        Subscription,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        db_column="sub_id",
+        related_name="members"
+    )
+    # Και ένα FK προς Payment (tran_id)
+    tran = models.ForeignKey(
+        Payment,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        db_column="tran_id",
+        related_name="members"
+    )
 
     def __str__(self):
         return self.username
-
 
 
 #
@@ -134,92 +100,50 @@ class Coach(Employee):
 #
 # 7) Class  (ιδιαίτερη προσοχή: ο Coach είναι FK εδώ)
 #
-
-
 class Class(models.Model):
-    """
-    Ένα τμήμα/μάθημα στο γυμναστήριο.
-    """
-    cl_id      = models.AutoField(primary_key=True)
+    cl_id = models.AutoField(primary_key=True)
+    # Κάθε μάθημα (Class) συνδέεται με έναν Coach (FK)
     em = models.ForeignKey(
         Coach,
         on_delete=models.CASCADE,
         db_column="em_id",
-        related_name="classes",
+        related_name="classes"
     )
-    name       = models.CharField(max_length=100)
-    date_time  = models.DateTimeField()
-    capacity   = models.PositiveIntegerField()
-    description= models.TextField(blank=True)
+    dates = models.DateTimeField()        # ή DateField, ανάλογα με το πόσο ακριβές θέλεις
+    name = models.CharField(max_length=100)
+    capacity = models.IntegerField()
+    description = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.name} @ {self.date_time:%Y-%m-%d %H:%M}"
+        return f"{self.name} ({self.dates.date()})"
 
-    @property
-    def booked_count(self):
-        return self.history.filter(cl__isnull=False).count()
-
-    def is_full(self):
-        return self.booked_count >= self.capacity
 
 #
-# 8) History  (γενικός πίνακας, “γονέας” για Booking & Cancellation)
+# 8) History
 #
 class History(models.Model):
-    """
-    Ενιαίο log για:
-      - αγορές πακέτων (sub != None, cl = None)
-      - κρατήσεις μαθημάτων (sub = None, cl != None)
-    """
-    h_id   = models.AutoField(primary_key=True)
-    user   = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    h_id = models.AutoField(primary_key=True)
+    # FK προς Member
+    user = models.ForeignKey(
+        Member,
         on_delete=models.CASCADE,
-        related_name="history"
+        db_column="user_id",
+        related_name="histories"
     )
-    sub    = models.ForeignKey(
-        Subscription, null=True, blank=True,
+    # FK προς Class
+    cl = models.ForeignKey(
+        Class,
         on_delete=models.CASCADE,
-        related_name="+"
+        db_column="cl_id",
+        related_name="histories"
     )
-    cl     = models.ForeignKey(
-        Class, null=True, blank=True,
-        on_delete=models.CASCADE,
-        related_name="history"
-    )
-    date   = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            # είτε purchase είτε booking, όχι και τα δύο
-            models.CheckConstraint(
-                check=(
-                    (Q(sub__isnull=False) & Q(cl__isnull=True)) |
-                    (Q(sub__isnull=True) & Q(cl__isnull=False))
-                ),
-                name="history_either_sub_or_cl"
-            ),
-            # αποτρέπουμε διπλο-κράτηση στο ίδιο μάθημα
-            models.UniqueConstraint(
-                fields=["user", "cl"],
-                condition=Q(cl__isnull=False),
-                name="unique_user_class_booking"
-            ),
-        ]
-
-    def clean(self):
-        # επιπλέον validation
-        if bool(self.sub) == bool(self.cl):
-            raise ValidationError("Ιστορικό πρέπει να είναι είτε purchase είτε booking.")
-
-    def is_purchase(self):
-        return self.sub is not None
-
-    def is_booking(self):
-        return self.cl is not None
+    date = models.DateTimeField()
 
     def __str__(self):
-        if self.sub:
-            return f"[Purchase] {self.user} -> {self.sub}"
-        else:
-            return f"[Booking] {self.user} -> {self.cl}"
+        return f"History {self.h_id}: Member {self.user.username} - Class {self.cl.name}"
+
+
+
+
+
+
