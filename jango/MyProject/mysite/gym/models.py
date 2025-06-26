@@ -142,3 +142,9 @@ class History(models.Model):
 
     def __str__(self):
         return f"History {self.h_id}: Member {self.user.username} - Class {self.cl.name}"
+
+
+
+
+
+
