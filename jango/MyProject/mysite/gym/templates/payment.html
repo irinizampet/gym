@@ -2,167 +2,128 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <title>Αγορά Προπονήσεων</title>
-  <style>
-    body, ul, li, h1, h2, a, p, input, button {
-      margin: 0; padding: 0; font-family: Arial, sans-serif; box-sizing: border-box;
-    }
-    header {
-      background-color: rgb(76,182,220);
-      padding: 10px 0;
-      text-align: center;
-      position: fixed; width: 100%; top: 0; z-index: 1;
-    }
-    header h1 { color: white; font-size: 24px; }
-    main {
-      max-width: 500px;
-      margin: 100px auto 60px;
-      padding: 0 20px;
-      text-align: center;
-    }
-    .error { color: red; margin-bottom: 15px; font-size: 16px; }
-    .packages {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-      margin-bottom: 20px;
-    }
-    .package {
-      border: 2px solid rgb(76,182,220);
-      border-radius: 15px;
-      padding: 15px 25px;
-      background-color: #f4f4f4;
-      cursor: pointer;
-      transition: background-color .3s, color .3s;
-      position: relative;
-      user-select: none;
-    }
-    .package.selected {
-      background-color: rgb(76,182,220);
-      color: white;
-    }
-    .package input {
-      position: absolute; opacity: 0; pointer-events: none;
-    }
-    .fields {
-      display: flex; flex-direction: column; gap: 15px;
-      margin-bottom: 25px;
-    }
-    .fields input {
-      border: 2px solid rgb(76,182,220);
-      border-radius: 15px;
-      padding: 12px; font-size: 16px;
-    }
-    form button {
-      padding: 12px 40px; font-size: 18px; border-radius: 15px;
-      background-color: rgb(76,182,220); color: white; border: none;
-      cursor: pointer; transition: background .3s;
-    }
-    form button:disabled {
-      background-color: #ccc; cursor: not-allowed;
-    }
-    footer {
-      background: rgb(76,182,220);
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-      position: fixed; bottom: 0; width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Αγορά Προπονήσεων</title>
+    <style>
+        body, ul, li, h1, h2, a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: rgb(76, 182, 220);
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1;
+        }
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+        main {
+            max-width: 800px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .package {
+            border: 2px solid rgb(76, 182, 220);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            cursor: pointer;
+            background-color: #f4f4f4;
+            display: inline-block;
+            transition: background-color .3s, color .3s;
+        }
+        .package.selected {
+            background-color: rgb(76, 182, 220);
+            color: white;
+        }
+        .error {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        form button {
+            margin-top: 20px;
+            padding: 12px 40px;
+            font-size: 18px;
+            border-radius: 15px;
+            background-color: rgb(76, 182, 220);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color .3s;
+        }
+        form button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        footer {
+            background: rgb(76, 182, 220);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Αγορά Προπονήσεων</h1>
+    </header>
 
-  <header>
-    <h1>Αγορά Προπονήσεων</h1>
-  </header>
+    <main>
+        <h2>Επίλεξε Πακέτο</h2>
 
-  <main>
-    <h2>Επίλεξε Πακέτο</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
 
-    {% if error %}
-      <div class="error">{{ error }}</div>
-    {% endif %}
+        <p>Έχεις ήδη προπληρώσει: <strong>{{ purchased }}</strong> εισόδους</p>
 
-    <p>Έχεις ήδη προπληρώσει: <strong>{{ purchased }}</strong> εισόδους</p>
+        <form method="post" action="{% url 'payment' %}" id="paymentForm">
+            {% csrf_token %}
+            <div>
+                {% for sub in subscriptions %}
+                    <label class="package {% if selected|stringformat:"s" == sub.sub_id|stringformat:"s" %}selected{% endif %}">
+                        <input
+                            type="radio"
+                            name="sub_id"
+                            value="{{ sub.sub_id }}"
+                            style="display:none"
+                            onchange="highlight(this)"
+                        >
+                        {{ sub.avail_participations }} Προπονήσεις — {{ sub.cost }}€
+                    </label>
+                {% endfor %}
+            </div>
 
-    <form method="post" action="{% url 'payment' %}" id="paymentForm">
-      {% csrf_token %}
+            <button type="submit" id="payButton" {% if not subscriptions %}disabled{% endif %}>
+                Πληρωμή
+            </button>
+        </form>
+    </main>
 
-      <div class="packages">
-        {% for sub in subscriptions %}
-          <label class="package" id="pkg-{{ sub.id }}">
-            <input
-              type="radio"
-              name="sub_id"
-              value="{{ sub.id }}"
-              onchange="onPackageSelect(sub.id)"
-            >
-            {{ sub.avail_participations }} Προπονήσεις — {{ sub.cost }}€
-          </label>
-        {% endfor %}
-      </div>
+    <footer>
+        <p>&copy; 2025 GymApp. All rights reserved.</p>
+    </footer>
 
-      <div class="fields">
-        <input
-          type="text"
-          name="first_name"
-          placeholder="Όνομα"
-          required
-          oninput="checkForm()"
-        >
-        <input
-          type="text"
-          name="last_name"
-          placeholder="Επώνυμο"
-          required
-          oninput="checkForm()"
-        >
-        <input
-          type="text"
-          name="card_number"
-          placeholder="Αριθμός Κάρτας (16 ψηφία)"
-          required
-          oninput="checkForm()"
-        >
-      </div>
-
-      <button type="submit" id="payButton" disabled>Πληρωμή</button>
-    </form>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 GymApp. All rights reserved.</p>
-  </footer>
-
-  <script>
-    const form = document.getElementById('paymentForm');
-    let selectedPackage = null;
-    const cardRegex = /^[0-9]{16}$/;
-
-    function onPackageSelect(id) {
-      document.querySelectorAll('.package').forEach(el => el.classList.remove('selected'));
-      document.getElementById('pkg-' + id).classList.add('selected');
-      selectedPackage = id;
-      checkForm();
-    }
-
-    function checkForm() {
-      const btn   = document.getElementById('payButton');
-      const first = form.elements['first_name'].value.trim();
-      const last  = form.elements['last_name'].value.trim();
-      const card  = form.elements['card_number'].value.trim();
-
-      if (
-        selectedPackage &&
-        first.length > 0 &&
-        last.length > 0 &&
-        cardRegex.test(card)
-      ) {
-        btn.disabled = false;
-      } else {
-        btn.disabled = true;
-      }
-    }
-  </script>
-
+    <script>
+        function highlight(radio) {
+            document.querySelectorAll('.package').forEach(el => el.classList.remove('selected'));
+            radio.closest('.package').classList.add('selected');
+            document.getElementById('payButton').disabled = false;
+        }
+    </script>
 </body>
 </html>
