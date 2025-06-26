@@ -6,49 +6,65 @@ from .models import (
     Employee,
     Secretary,
     Coach,
-    Class,
+    Class as GymClass,
     History,
 )
 
+
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('sub_id', 'name', 'avail_participations')
+    list_display = ("id", "avail_participations")
+
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('tran_id', 'user', 'subscription', 'amount', 'tran_date')
-    list_filter  = ('subscription', 'tran_date')
+    list_display = ("tran_id", "user", "subscription", "amount", "tran_date")
+    list_filter  = ("subscription",)
+    search_fields = ("tran_id",)
+
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display   = (
-        'id', 'username', 'email',
-        'first_name', 'last_name',
-        'registration_date', 'phone_num'
+    list_display = (
+        "user_id",
+        "username",
+        "email",
+        "name",
+        "surname",
+        "age",
+        "registration_date",
+        "phone_num",
+        "sub",
+        "tran",
     )
-    search_fields  = ('username', 'email', 'first_name', 'last_name')
+    list_filter  = ("sub", "tran", "age")
+    search_fields = ("username", "email", "name", "surname")
+
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
+    list_display   = ("em_id", "name", "surname", "age", "phone_num", "email")
+    search_fields  = ("name", "surname", "email")
+
 
 @admin.register(Secretary)
-class SecretaryAdmin(admin.ModelAdmin):
-    # Secretary κληρονομεί απευθείας τα πεδία του Employee
-    list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
+class SecretaryAdmin(EmployeeAdmin):
+    """κληρονομεί όλη την εμφάνιση από EmployeeAdmin"""
+
 
 @admin.register(Coach)
-class CoachAdmin(admin.ModelAdmin):
-    # Coach κληρονομεί απευθείας τα πεδία του Employee
-    list_display = ('em_id', 'name', 'surname', 'email', 'phone_num')
+class CoachAdmin(EmployeeAdmin):
+    """κληρονομεί όλη την εμφάνιση από EmployeeAdmin"""
 
-@admin.register(Class)
+
+@admin.register(GymClass)
 class ClassAdmin(admin.ModelAdmin):
-    # το πεδίο στο model λέγεται `em` και `date_time`
-    list_display = ('cl_id', 'em', 'name', 'date_time', 'capacity')
-    list_filter  = ('em',)
+    list_display   = ("cl_id", "name", "dates", "em", "capacity")
+    list_filter    = ("em", "dates")
+    search_fields  = ("name", "description")
+
 
 @admin.register(History)
 class HistoryAdmin(admin.ModelAdmin):
-    list_display = ('h_id', 'user', 'sub', 'cl', 'date')
-    list_filter  = ('sub', 'cl', 'date')
+    list_display = ("h_id", "user", "cl", "date")
+    list_filter  = ("user", "cl", "date")

@@ -2,8 +2,9 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Subscription, Payment, History
 from django.db.models import Sum
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Subscription, Payment, History
 
 
 def login_view(request):
@@ -102,17 +103,17 @@ PRICE_PER_SESSION = 10
 
 @login_required
 def payment_view(request):
-    # --- Υπολογισμός ήδη αγορασμένων εισόδων ---
-    purchased = History.objects.filter(
-        user=request.user, sub__isnull=False
-    ).aggregate(total=Sum('sub__avail_participations'))['total'] or 0
-
-    # --- Φόρτωση πακέτων και κόστη ---
-    subscriptions = Subscription.objects.all()
-    costs = {
-        sub.sub_id: sub.avail_participations * PRICE_PER_SESSION
-        for sub in subscriptions
-    }
+    # Υπολογισμός ήδη αγορασμένων εισόδων
+    purchased = (
+        Payment.objects
+               .filter(user=request.user)
+               .aggregate(total=Sum('subscription__avail_participations'))['total']
+        or 0
+    )
+    # Φόρτωση πακέτων και υπολογισμός κόστους ΣΕ ΚΑΘΕ sub
+    subscriptions = list(Subscription.objects.all())
+    for sub in subscriptions:
+        sub.cost = sub.avail_participations * PRICE_PER_SESSION
 
     error = None
     selected = None
@@ -123,19 +124,16 @@ def payment_view(request):
             error = "Πρέπει να επιλέξεις ένα πακέτο."
         else:
             sub = get_object_or_404(Subscription, pk=selected)
-            # Δημιουργούμε Payment και το signal γράφει History
             Payment.objects.create(
                 user=request.user,
                 subscription=sub,
-                amount=costs[sub.sub_id]
+                amount=sub.cost
             )
-            return redirect('profile')  # ή όπου θες να πας μετά
+            return redirect('profile')
 
-    # GET (ή λάθος POST): στείλε όλα τα δεδομένα στο template
     return render(request, 'payment.html', {
         'subscriptions': subscriptions,
         'purchased': purchased,
-        'costs': costs,
         'error': error,
         'selected': selected,
     })
