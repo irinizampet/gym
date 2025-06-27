@@ -2,37 +2,42 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
+  {% load static %}
+            <link rel="stylesheet" href="{% static 'profil.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="profil.css">
   <title>Προφίλ Μέλους</title>
 </head>
 <body>
   <header>
-    <h2>Προφίλ Μέλους</h2>
+    <h1>Προφίλ Μέλους</h1>
   </header>
+  <br>
 
   <main class="profile-container">
     <div class="profile-card">
       <h3>Προσωπικά Στοιχεία</h3>
+      {% if member %}
+        <ul>
+          <li><strong>Ονοματεπώνυμο:</strong>
+            {{ member.name }} {{ member.surname }}
+          </li>
+          <li><strong>Ημερομηνία Εγγραφής:</strong>
+            {{ member.registration_date|date:"j F Y" }}
+          </li>
+          <li><strong>Τηλέφωνο:</strong>
+            {{ member.phone_num }}
+          </li>
+          <li><strong>Email:</strong>
+            {{ member.email }}
+          </li>
+      {% endif %}
       <ul>
-        <li><strong>Ονοματεπώνυμο:</strong> Μαρία Παπαδοπούλου</li>
-        <li><strong>Ημερομηνία Εγγραφής:</strong> 12 Ιανουαρίου 2023</li>
-        <li><strong>Τηλέφωνο:</strong> 6987654321</li>
-        <li><strong>Email:</strong> maria.papado@gmail.com</li>
-        <li><strong>Ημερομηνία Γέννησης:</strong> 5 Μαΐου 1990</li>
-        <li><strong>Ενεργή Συνδρομή:</strong> Ναι (έως 12/05/2025)</li>
-        <li><strong>Τύπος Συνδρομής:</strong> Ετήσια</li>
+        
       </ul>
     </div>
   </main>
-
   <footer>
-    <p class="copyright">copyright 2025 lifting and coding</p>
-  </footer>
-</body>
-</html>
-  <footer>
-    <p class="copyright">copyright 2025 lifting and coding</p>
+    <p class="copyright">copyright © 2025 lifting and coding</p>
   </footer>
 </body>
 </html>

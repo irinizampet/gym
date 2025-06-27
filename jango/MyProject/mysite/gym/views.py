@@ -81,7 +81,14 @@ def προπονητες_view(request):
     return render(request, 'Προπονητές.html')
 
 def profil_view(request):
-    return render(request, 'profil.html')
+    try:
+        member = Member.objects.get(username=request.user.username)
+    except Member.DoesNotExist:
+        member = None
+
+    return render(request, 'profil.html', {
+        'member': member
+    })
 
 def booking_view(request):
     return render(request, 'booking.html')
@@ -95,43 +102,15 @@ def announcements_view(request):
 def profil_view(request):
     return render(request, 'profil.html')
 
-#@login_required
-# def payment_view(request):
-#     # 1) Υπολογισμός ήδη αγορασμένων εισόδων μέσω Payments
-#     purchased = (
-#         Payment.objects
-#                .filter(user=request.user)
-#                .aggregate(total=Sum('sub__avail_participations'))['total']
-#         or 0
-#     )
-
-#     # 2) Φόρτωση διαθέσιμων πακέτων + υπολογισμός κόστους
-#     subscriptions = list(Subscription.objects.all())
-#     for sub in subscriptions:
-#         sub.cost = sub.avail_participations * PRICE_PER_SESSION
-
-#     error = None
-#     selected = None
-
-#     # 3) Επεξεργασία φόρμας
-#     if request.method == 'POST':
-#         selected = request.POST.get('sub_id')
-#         if not selected:
-#             error = "Πρέπει να επιλέξεις ένα πακέτο."
-#         else:
-#             sub = get_object_or_404(Subscription, pk=selected)
-#             Payment.objects.create(
-#                 user=request.user,
-#                 sub=sub,
-#                 amount=sub.cost,
-#                 tran_date=timezone.now()
-#             )
-#             return redirect('profile')
-
-#     # 4) Απόδοση template
-#     return render(request, 'payment.html', {
-#         'subscriptions': subscriptions,
-#         'purchased':     purchased,
-#         'error':         error,
-#         'selected':      selected,
-#     })
+def profil_view(request):
+    """
+    Παίρνει το αντικείμενο Member για τον τρέχοντα χρήστη
+    και το στέλνει στο template.
+    """
+    try:
+        member = Member.objects.get(username=request.user.username)
+    except Member.DoesNotExist:
+        member = None
+    return render(request, 'profil.html', {
+        'member': member
+    })
