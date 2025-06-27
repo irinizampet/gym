@@ -2,8 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Subscription, Payment, History
-from django.db.models import Sum
+from .forms import MemberSignupForm
 
 
 def login_view(request):
@@ -23,8 +22,6 @@ def dashboard_view(request):
 
 def payment_view(request):
     return render(request, 'payment.html')
-
-from .forms import MemberSignupForm
 
 def signup_view(request):
     if request.method == 'POST':
@@ -67,7 +64,7 @@ def dashboard_view(request):
     return render(request, 'περιβαλλονχρηστη.html', {'member': member})
 
 def index_view(request):
-    return render(request, 'index.html')  # ή το αρχικό σου template
+    return render(request, 'index.html') 
 
 def filosofia_view(request):
     return render(request, 'filosofia.html')
@@ -84,8 +81,8 @@ def προπονητες_view(request):
 def profil_view(request):
     return render(request, 'profil.html')
 
-def krathsh_view(request):
-    return render(request, 'Κράτηση.html')
+def booking_view(request):
+    return render(request, 'booking.html')
 
 def history_view(request):
     return render(request, 'training-history.html')
@@ -95,13 +92,6 @@ def announcements_view(request):
 
 def profil_view(request):
     return render(request, 'profil.html')
-
-from django.shortcuts    import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.db.models    import Sum
-from .models             import Subscription, Payment, History
-
-PRICE_PER_SESSION = 10
 
 #@login_required
 # def payment_view(request):
