@@ -1,30 +1,193 @@
 <!DOCTYPE html>
-<html>
+<html lang="el">
 <head>
-    <meta charset="UTF-8">
-    {% load static %}
-        <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <title>Εγγραφή</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Δημιουργία Λογαριασμού</title>
+  <style>
+    /* Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+
+    /* Body και Header */
+    body { background-color: #f5f8fa; }
+    header {
+      background-color: rgb(76, 182, 220);
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header h1{
+     border: 4px solid rgb(76, 73, 91);
+     padding: 6px 6px;
+     display:inline-block;
+     border-radius: 10px;
+    }
+
+    /* Κύριο Μέρος */
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .form-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.6rem;
+      color: #333;
+    }
+
+    .form-container h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    /* Κάθε σειρά φόρμας */
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .form-row label {
+      flex: 0 0 140px;
+      font-size: 1rem;
+      color: #333;
+    }
+    .form-row input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 4px solid #b3e5fc;
+      border-radius: 25px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-row input:focus {
+      border-color: rgb(76, 182, 220);
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      background-color: rgb(76, 182, 220);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+
+    /* Error messages */
+    .error { color: #c00; margin-bottom: 15px; }
+
+    /* Footer (προαιρετικό) */
+    footer {
+      text-align: center;
+      padding: 12px 0;
+      background-color: rgb(76, 182, 220);
+      color: #fff;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Δημιουργία Λογαριασμού</h1>
-    </header>
 
-    <div class="φόρμα"> 
-       <form method="post"> {% csrf_token %}
+  <header>
+    <h1>Δημιουργία Λογαριασμού</h1>
+  </header>
 
-         <input type="text" name="name" placeholder="Όνομα" required><br>
-         <input type="text" name="surname" placeholder="Επώνυμο" required><br>
-         <input type="text" name="phone_num" placeholder="Τηλέφωνο" required><br>
-         <input type="text" name="username" placeholder="Όνομα χρήστη" required><br>
-         <input type="email" name="email" placeholder="Email" required><br>
-         <input type="password" name="password" placeholder="Κωδικός" required><br>
-         <input type="password" name="password_confirm" placeholder="Επιβεβαίωση Κωδικού" required><br>
-         <input type="submit" value="Εγγραφή">
-       </form>
+  <main>
+    <div class="form-container">
+
+      <!-- αν έχεις message από form.non_field_errors -->
+      {% if form.non_field_errors %}
+        <div class="error">
+          {% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="form-row">
+          <label for="id_name">Όνομα:</label>
+          {{ form.name }}
+        </div>
+        {% for e in form.name.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_surname">Επώνυμο:</label>
+          {{ form.surname }}
+        </div>
+        {% for e in form.surname.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_phone_num">Τηλέφωνο:</label>
+          {{ form.phone_num }}
+        </div>
+        {% for e in form.phone_num.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_username">Όνομα χρήστη:</label>
+          {{ form.username }}
+        </div>
+        {% for e in form.username.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_email">Email:</label>
+          {{ form.email }}
+        </div>
+        {% for e in form.email.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_password">Κωδικός:</label>
+          {{ form.password }}
+        </div>
+        {% for e in form.password.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <div class="form-row">
+          <label for="id_password_confirm">Επιβεβαίωση Κωδικού:</label>
+          {{ form.password_confirm }}
+        </div>
+        {% for e in form.password_confirm.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        <button type="submit" class="submit-btn">Εγγραφή</button>
+      </form>
+      <br>
+      <h3> Έχεις ήδη λογαριασμό; <a href="{% url 'login' %}">Σύνδεση</a></h3>
+
     </div>
+  </main>
+  <script>
 
-    <a href="{% url 'login' %}">Σύνδεση</a>
+  // Επίσης, όταν ξαναμπεί η σελίδα από cache ή reload
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted || (performance.getEntriesByType('navigation')[0]||{}).type === 'reload') {
+      const f = document.getElementById('signupForm');
+      if (f) f.reset();
+      document.querySelectorAll('.error').forEach(e=>e.style.display='none');
+    }
+  });
+  </script>
+
+
+  <footer>
+    © 2025 GymApp. All rights reserved.
+  </footer>
 </body>
 </html>

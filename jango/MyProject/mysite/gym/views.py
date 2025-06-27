@@ -28,9 +28,11 @@ def signup_view(request):
         form = MemberSignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # αφού γίνει η εγγραφή, τον στέλνεις στη login σελίδα
+            return redirect('login')
+        # αν δεν είναι valid, θα περάσει ξανά στο render με τα form.errors
     else:
         form = MemberSignupForm()
+
     return render(request, 'signup.html', {'form': form})
 
 import random
