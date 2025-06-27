@@ -1,129 +1,124 @@
-{# gym/templates/gym/payment.html #}
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <title>Αγορά Προπονήσεων</title>
-    <style>
-        body, ul, li, h1, h2, a {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        header {
-            background-color: rgb(76, 182, 220);
-            padding: 10px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1;
-        }
-        header h1 {
-            color: white;
-            margin: 0;
-            font-size: 24px;
-        }
-        main {
-            max-width: 800px;
-            margin: 100px auto 60px;
-            padding: 0 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .package {
-            border: 2px solid rgb(76, 182, 220);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 10px;
-            width: 200px;
-            cursor: pointer;
-            background-color: #f4f4f4;
-            display: inline-block;
-            transition: background-color .3s, color .3s;
-        }
-        .package.selected {
-            background-color: rgb(76, 182, 220);
-            color: white;
-        }
-        .error {
-            color: red;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        form button {
-            margin-top: 20px;
-            padding: 12px 40px;
-            font-size: 18px;
-            border-radius: 15px;
-            background-color: rgb(76, 182, 220);
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color .3s;
-        }
-        form button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        footer {
-            background: rgb(76, 182, 220);
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Αγορά Προπονήσεων</title>
+  <style>
+    /* Γενικές ρυθμίσεις */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f5f8fa; color: #333; line-height: 1.4; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* Header */
+    header { background-color: #5CC0F6; padding: 20px; text-align: center; }
+    header h1 { display: inline-block; background-color: #f5f8fa; color: #333; padding: 8px 20px; border: 4px solid #5CC0F6; border-radius: 8px; font-size: 1.8rem; }
+
+    /* Main content */
+    main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 20px; }
+    .form-container { width: 100%; max-width: 400px; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .form-container h2 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; }
+
+    /* Κουμπιά πακέτων */
+    .packages { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+    .packages button { width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #5CC0F6; border-radius: 12px; background-color: #f5f8fa; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+    .packages button:hover { background-color: #5CC0F6; color: #fff; }
+    .packages button.active { background-color: #5CC0F6; color: #fff; }
+
+    /* Inputs */
+    .form-container input[type="text"],
+    .form-container input[type="tel"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 4px solid #b3e5fc; border-radius: 25px; font-size: 1rem; }
+    .form-container input::placeholder { color: #aaa; }
+
+    /* Submit button */
+    .form-container .submit-btn { width: 100%; padding: 12px; font-size: 1rem; background-color: #5CC0F6; border: none; border-radius: 25px; color: #fff; cursor: pointer; transition: opacity 0.2s; }
+    .form-container .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-container .submit-btn:hover:not(:disabled) { opacity: 0.9; }
+
+    /* Success message */
+    .success-message { display: none; margin-top: 20px; padding: 15px; border: 2px solid #4CAF50; background-color: #e8f5e9; color: #2e7d32; border-radius: 8px; text-align: center; font-weight: bold; }
+
+    /* Footer */
+    footer { background-color: #5CC0F6; text-align: center; padding: 12px 0; color: #fff; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Αγορά Προπονήσεων</h1>
-    </header>
 
-    <main>
-        <h2>Επίλεξε Πακέτο</h2>
+  <header>
+    <h1>Αγορά Προπονήσεων</h1>
+  </header>
 
-        {% if error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
+  <main>
+    <div class="form-container">
+      <h2>Επίλεξε Πακέτο</h2>
 
-        <p>Έχεις ήδη προπληρώσει: <strong>{{ purchased }}</strong> εισόδους</p>
+      <div class="packages">
+        <button type="button" data-value="10">10 Προπονήσεις</button>
+        <button type="button" data-value="20">20 Προπονήσεις</button>
+        <button type="button" data-value="30">30 Προπονήσεις</button>
+      </div>
 
-        <form method="post" action="{% url 'payment' %}" id="paymentForm">
-            {% csrf_token %}
-            <div>
-                {% for sub in subscriptions %}
-                    <label class="package {% if selected|stringformat:"s" == sub.sub_id|stringformat:"s" %}selected{% endif %}">
-                        <input
-                            type="radio"
-                            name="sub_id"
-                            value="{{ sub.sub_id }}"
-                            style="display:none"
-                            onchange="highlight(this)"
-                        >
-                        {{ sub.avail_participations }} Προπονήσεις — {{ sub.cost }}€
-                    </label>
-                {% endfor %}
-            </div>
+      <form id="purchaseForm" action="#" method="post">
+        <input type="hidden" name="package" id="selectedPackage" value="">
+        <input type="text" name="firstname" placeholder="Όνομα" required>
+        <input type="text" name="lastname" placeholder="Επώνυμο" required>
+        <input type="tel" name="cardnumber" id="cardnumber" placeholder="Αριθμός Κάρτας (16 ψηφία)" pattern="\d{16}" required>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>Πληρωμή</button>
+      </form>
 
-            <button type="submit" id="payButton" {% if not subscriptions %}disabled{% endif %}>
-                Πληρωμή
-            </button>
-        </form>
-    </main>
+      <div id="successMessage" class="success-message">
+        Η πληρωμή ολοκληρώθηκε με επιτυχία! Ευχαριστούμε για την αγορά.
+      </div>
+    </div>
+  </main>
 
-    <footer>
-        <p>&copy; 2025 GymApp. All rights reserved.</p>
-    </footer>
+  <footer>
+    © 2025 GymApp. All rights reserved.
+  </footer>
 
-    <script>
-        function highlight(radio) {
-            document.querySelectorAll('.package').forEach(el => el.classList.remove('selected'));
-            radio.closest('.package').classList.add('selected');
-            document.getElementById('payButton').disabled = false;
-        }
-    </script>
+  <script>
+    // Επιλέξιμο πακέτο
+    const packageButtons = document.querySelectorAll('.packages button');
+    const selectedInput = document.getElementById('selectedPackage');
+    let selectedValue = null;
+
+    packageButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        packageButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedValue = btn.getAttribute('data-value');
+        selectedInput.value = selectedValue;
+        updateSubmitState();
+      });
+    });
+
+    // Έλεγχος αριθμού κάρτας
+    const cardInput = document.getElementById('cardnumber');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('purchaseForm');
+    const successMsg = document.getElementById('successMessage');
+
+    cardInput.addEventListener('input', updateSubmitState);
+
+    function updateSubmitState() {
+      const cardVal = cardInput.value.replace(/\D/g, '');
+      const isCardValid = /^\d{16}$/.test(cardVal);
+      const isPackageSelected = !!selectedValue;
+      submitBtn.disabled = !(isCardValid && isPackageSelected);
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!submitBtn.disabled) {
+        // Κρύψε τη φόρμα
+        form.style.display = 'none';
+        // Κρύψε τα πακέτα
+        document.querySelector('.packages').style.display = 'none';
+        // Δείξε μήνυμα επιτυχίας
+        successMsg.style.display = 'block';
+      }
+    });
+  </script>
+
 </body>
 </html>
