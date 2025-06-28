@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {% load static %}
-            <link rel="stylesheet" href="{% static 'styles.css' %}">
-        <title>contact</title>
-    </head>
-    <body>
-        <header>
-            <h1>Επικοινωνία</h1>
-        </header>
-        <main>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>contact</title>
+    <style>
+  header {
+    background-color: rgb(76, 182, 220);
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  header h1 {
+    border: 4px solid rgb(76, 73, 91);
+    padding: 6px 12px;
+    display: inline-block;
+    border-radius: 10px;
+    font-size: 28px;
+    margin: 10px 0;
+  }
+</style>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Επικοινωνία</h1>
+    </header>
+
+        <main style="margin-top: 150px;">
             <div class="contact">
               <ul>
                <li><strong>Διεύθυνση:</strong> Αίθουσα 11, Μέγαρο Θεωρητικών Επιστημών, Νομική Σχολή Αθηνών</li>
