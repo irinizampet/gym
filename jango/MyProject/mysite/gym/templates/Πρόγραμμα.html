@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     {% load static %}
-            <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      header {
+        background-color: rgb(76, 182, 220);
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        padding: 16px 0;
+      }
+
+      header h1 {
+        border: 4px solid rgb(76, 73, 91);
+        padding: 6px 12px;
+        display: inline-block;
+        border-radius: 10px;
+        font-size: 32px;
+        margin: 0;
+      }
+
+      /* Το κενο που σπρωχνει το περιεχομενο ΚΑΤΩ απο τη μπαρα */
+      .header-space {
+        height: 100px;
+      }
+    </style>
   </head>
+
   <body>
     <header>
-      <h1> Προγράμματα </h1>
+      <h1>Προγράμματα</h1>
     </header>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
+    <div class="header-space"></div>
+
+
+
        <table border="2" align="center" >
             <tr align="center" style="background-color: rgb(111, 147, 196);">
                 <th width="200"> Ώρες</th>
