@@ -10,8 +10,8 @@
     body { background-color: #f5f8fa; color: #333; line-height: 1.4; display: flex; flex-direction: column; min-height: 100vh; }
 
     /* Header */
-    header { background-color: #5CC0F6; padding: 20px; text-align: center; }
-    header h1 { display: inline-block; background-color: #f5f8fa; color: #333; padding: 8px 20px; border: 4px solid #5CC0F6; border-radius: 8px; font-size: 1.8rem; }
+    header { background-color: rgb(76, 182, 220); padding: 20px; text-align: center; }
+    header h1 { display: inline-block; background-color: #f5f8fa; color: #333; padding: 8px 20px; border: 4px solid rgb(76, 182, 220); border-radius: 8px; font-size: 1.8rem; }
 
     /* Main content */
     main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 20px; }
@@ -20,9 +20,9 @@
 
     /* Κουμπιά πακέτων */
     .packages { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
-    .packages button { width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #5CC0F6; border-radius: 12px; background-color: #f5f8fa; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
-    .packages button:hover { background-color: #5CC0F6; color: #fff; }
-    .packages button.active { background-color: #5CC0F6; color: #fff; }
+    .packages button { width: 100%; padding: 12px; font-size: 1rem; border: 2px solid rgb(76, 182, 220); border-radius: 12px; background-color: #f5f8fa; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+    .packages button:hover { background-color: rgb(76, 182, 220); color: #fff; }
+    .packages button.active { background-color: rgb(76, 182, 220); color: #fff; }
 
     /* Inputs */
     .form-container input[type="text"],
@@ -30,7 +30,7 @@
     .form-container input::placeholder { color: #aaa; }
 
     /* Submit button */
-    .form-container .submit-btn { width: 100%; padding: 12px; font-size: 1rem; background-color: #5CC0F6; border: none; border-radius: 25px; color: #fff; cursor: pointer; transition: opacity 0.2s; }
+    .form-container .submit-btn { width: 100%; padding: 12px; font-size: 1rem; background-color:rgb(76, 182, 220); border: none; border-radius: 25px; color: #fff; cursor: pointer; transition: opacity 0.2s; }
     .form-container .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .form-container .submit-btn:hover:not(:disabled) { opacity: 0.9; }
 
@@ -38,14 +38,17 @@
     .success-message { display: none; margin-top: 20px; padding: 15px; border: 2px solid #4CAF50; background-color: #e8f5e9; color: #2e7d32; border-radius: 8px; text-align: center; font-weight: bold; }
 
     /* Footer */
-    footer { background-color: #5CC0F6; text-align: center; padding: 12px 0; color: #fff; font-size: 0.9rem; }
+    footer { background-color: rgb(76, 182, 220); text-align: center; padding: 12px 0; color: #fff; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Αγορά Προπονήσεων</h1>
+  <header style="background-color: rgb(76, 182, 220); padding: 10px 0; text-align: center;">
+    <h1 style="display: inline-block; background-color: rgb(76, 182, 220); color: black; padding: 6px 16px; border: 4px solid #2f4761; border-radius: 10px; font-size: 1.8rem; font-family: Arial;">Αγορά Προπονήσεων</h1>
   </header>
+
+
+
 
   <main>
     <div class="form-container">
@@ -66,13 +69,13 @@
       </form>
 
       <div id="successMessage" class="success-message">
-        Η πληρωμή ολοκληρώθηκε με επιτυχία! Ευχαριστούμε για την αγορά.
+        Η πληρωμή ολοκληρώθηκε με επιτυχία! Καλή αρχή!
       </div>
     </div>
   </main>
 
   <footer>
-    © 2025 GymApp. All rights reserved.
+    copyright © 2025 lifting and coding
   </footer>
 
   <script>
