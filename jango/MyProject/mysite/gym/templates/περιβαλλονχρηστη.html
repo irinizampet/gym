@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% load static %}
-            <link rel="stylesheet" href="{% static 'περιβαλλονχρηστη.css' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Lifting and coding</title>
-    </head>
-    <body style="padding-bottom: 40px;">
-        <header>
-            <h1>Lifting and Coding</h1>
-        </header>
-        <section class="banner"> 
-            <div class="welcome">
-                <br>
-                <br>
-                <br>
-                <br>
-            
-            
-                <h2>Καλωσόρισες, {{ member.name }}!</h2>
-            </div>
-        </section>
-        <nav class="main-nav" style="margin-top: 57px;">
-            <ul>
-                <li><a href="{% url 'profil' %}" class="προφιλ">Το προφίλ σου</a></li>
-                <li><a href="{% url 'payment' %}" class="Πληρωμή">Πληρωμή</a></li>
-                <li><a href="{% url 'booking' %}" class="Προγράμμα">Προγράμματα</a></li>
-                <li><a href="{% url 'announcement' %}" class="Ανακοινώσεις">Ανακοινώσεις</a></li>
-                <li><a href="{% url 'index' %}" class="Αποσύνδεση">Αποσύνδεση</a></li>
-            </ul>
-        </nav>
-        <footer style="position: fixed; bottom: 0; left: 0; width: 100%; background: rgb(76, 182, 220); color: white; padding: 8px; text-align: center;">
-          © 2025 Lifting and Coding. All rights reserved.
-        </footer>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'περιβαλλονχρηστη.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lifting and Coding</title>
+</head>
+<body style="padding-bottom: 40px; margin: 0;">
 
+  <header>
+    <h1>Lifting and Coding</h1>
+  </header>
 
-    </body>
+  <nav class="main-nav" style="margin-top: 57px;">
+    <ul>
+      <li><a href="{% url 'profil' %}" class="προφιλ">Το προφίλ σου</a></li>
+      <li><a href="{% url 'payment' %}" class="Πληρωμή">Πληρωμή</a></li>
+      <li><a href="{% url 'booking' %}" class="Προγράμμα">Προγράμματα</a></li>
+      <li><a href="{% url 'announcement' %}" class="Ανακοινώσεις">Ανακοινώσεις</a></li>
+      <li><a href="{% url 'index' %}" class="Αποσύνδεση">Αποσύνδεση</a></li>
+    </ul>
+  </nav>
+
+  <section style="text-align: center; margin-top: 60px;">
+    <h2 style="font-size: 28px; color: #4c495b;">Καλωσόρισες, {{ member.name }}!</h2>
+    <img src="{% static 'images/κολλαπεντε.jpg' %}" alt="Γυμναστήριο" style="max-width: 100%; height: auto; margin-top: 20px;">
+  </section>
+
+  <footer style="position: fixed; bottom: 0; left: 0; width: 100%; background: rgb(76, 182, 220); color: white; padding: 8px; text-align: center;">
+    © 2025 Lifting and Coding. All rights reserved.
+  </footer>
+
+</body>
 </html>
+
 
         
     
