@@ -1,55 +1,137 @@
 <!DOCTYPE html>
+<html lang="el">
 <head>
   <meta charset="UTF-8">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
   <title>Ανακοινώσεις</title>
   <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+    }
+
+    header {
+      background-color: rgb(76, 182, 220);
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    header h1 {
+      display: inline-block;
+      background-color: rgb(76, 182, 220);
+      color: black;
+      padding: 4px 10px;
+      border: 4px solid #2f4761;
+      border-radius: 10px;
+      font-size: 1.8rem;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
     .announcement {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin: 10px 0;
-      padding: 10px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
       cursor: pointer;
-      background-color: #f9f9f9;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    .announcement:hover {
+      background-color: #f0faff;
     }
 
     .announcement h3 {
       margin: 0;
+      font-weight: bold;
     }
 
     .announcement-content {
       display: none;
       margin-top: 10px;
+      color: #444;
     }
 
     .announcement.active .announcement-content {
       display: block;
     }
+
+    footer {
+      background-color: rgb(76, 182, 220);
+      text-align: center;
+      padding: 12px 0;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+
+  main {
+  max-width: 100%;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 150px 40px 40px 40px;  /* top = αρκετό για να μην επικαλύπτει το header */
+  box-sizing: border-box;
+}
+
   </style>
 </head>
 <body>
 
-  <h2>Ανακοινώσεις</h2>
+  <header>
+    <h1>Ανακοινώσεις</h1>
+  </header>
 
-  <div class="announcement" onclick="toggleAnnouncement(this)">
-    <h3>Καλό Πάσχα</h3>
-    <div class="announcement-content">
-      Το γυμναστήριο θα παραμείνει κλειστό από 18/4 εως και 25/4. Καλό Πάσχα!!!
+  <main>
+    <div class="announcement" onclick="toggleAnnouncement(this)">
+      <h3>Γυμναστική στη ταράτσα μας!</h3>
+      <div class="announcement-content">
+        Από 30/6 μέχρι και 5/6 θα γίνονται τα μαθήματα στη ταράτσα του γυμναστηρίου μας αφού ο καιρός λογικά θα μας κάνει την χάρη και θα δροσίσει! (γελάω)
+      </div>
     </div>
-  </div>
 
-  <div class="announcement" onclick="toggleAnnouncement(this)">
-    <h3>Συντήρηση οργάνων - 20/4</h3>
-    <div class="announcement-content">
-      Θα πραγματοποιηθεί προγραμματισμένη συντήρηση την Παρασκευή 12 Απριλίου από τις 02:00 έως τις 04:00.
+    <div class="announcement" onclick="toggleAnnouncement(this)">
+      <h3>Τραυματισμός προπονητή</h3>
+      <div class="announcement-content">
+        Ο Χρηστάκος μας τραυματίστηκε κι έτσι τα μαθήματα του 16 και 17 Ιουνίου δεν θα πραγματοποιηθούν. Περαστικά Χρήστο μας! :΄(
+      </div>
     </div>
-  </div>
 
-  <div class="announcement" onclick="toggleAnnouncement(this)">
-    <h3>Καλωσορίσατε στη νέα μας ιστοσελίδα!</h3>
-    <div class="announcement-content">
-      Σας καλωσορίζουμε στη νέα μας ιστοσελίδα! Ρίξτε μια ματιά στα νέα χαρακτηριστικά και στείλτε μας σχόλια.
+    <div class="announcement" onclick="toggleAnnouncement(this)">
+      <h3>Καλό Πάσχα</h3>
+      <div class="announcement-content">
+        Το γυμναστήριο θα παραμείνει κλειστό από 18/4 έως και 25/4. Καλό Πάσχα!!!
+      </div>
     </div>
-  </div>
+
+    <div class="announcement" onclick="toggleAnnouncement(this)">
+      <h3>Συντήρηση οργάνων - 20/4</h3>
+      <div class="announcement-content">
+        Θα πραγματοποιηθεί προγραμματισμένη συντήρηση την Παρασκευή 12 Απριλίου από τις 14:00 έως τις 16:00.
+      </div>
+    </div>
+
+    <div class="announcement" onclick="toggleAnnouncement(this)">
+      <h3>Καλωσορίσατε στη νέα μας ιστοσελίδα!</h3>
+      <div class="announcement-content">
+        Σας καλωσορίζουμε στη νέα μας ιστοσελίδα! Ρίξτε μια ματιά στα νέα χαρακτηριστικά και στείλτε μας σχόλια! <br>
+        email: liftingandcodinggym@gmail.com
+      </div>
+    </div>
+  </main>
+
+  <footer style="background: rgb(76, 182, 220); color: white; text-align: center; height: 1cm; display: flex; align-items: center; justify-content: center;">
+    <p style="margin: 0; font-size: 16px;">copyright © 2025 lifting and coding</p>
+  </footer>
+
 
   <script>
     function toggleAnnouncement(el) {
