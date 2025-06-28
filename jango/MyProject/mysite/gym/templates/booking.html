@@ -5,22 +5,23 @@
             <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body>
-        <header> 
-            <h1> Επιλογή Προγράμματος </h1>
+        <header style="background-color: rgb(76, 182, 220); padding: 10px 0; text-align: center;">
+           <h1 style="display: inline-block; background-color: rgb(76, 182, 220); color: black; padding: 6px 16px; border: 4px solid #2f4761; border-radius: 10px; font-size: 1.8rem; font-family: Arial;">
+               Επιλογή Προγράμματος
+           </h1>
         </header>
+
         <br>
         <br>
         <br>
         <br>
-        <label id="selectedCountLabel"> </label>
         <br>
         <div class="dropdown">
-            <button onclick="toggleDropdown()"> Δήλωση προγράμματος</button>
-            <br>
-            <br>
-            <div id="myDropdown" class="dropdown-content" style="display: none;">
+        <div id="myDropdown" class="dropdown-content" style="display: block; max-width: 220px; margin: 0 auto;">
+
+
                 <br>
-                <h4> Δευτέρα</h4>
+                <h3 style="text-align: center;">Δευτέρα</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -61,7 +62,7 @@
 
                 <br>
                 <br>
-                <h4> Τρίτη</h4>
+                <h3 style="text-align: center;">Τρίτη</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -102,7 +103,7 @@
 
                 <br>
                 <br>
-                <h4> Τετάρτη</h4>
+                <h3 style="text-align: center;">Τετάρτη</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -142,7 +143,7 @@
 
                 <br>
                 <br>
-                <h4> Πέμπτη</h4>
+                <h3 style="text-align: center;">Πέμπτη</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -182,7 +183,7 @@
 
                 <br>
                 <br>
-                <h4> Παρασκευή</h4>
+                <h3 style="text-align: center;">Παρασκευή</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -222,7 +223,7 @@
 
                 <br>
                 <br>
-                <h4> Σάββατο</h4>
+                <h3 style="text-align: center;">Σάββατο</h3>
                 <br>
                 <label>
                     <input type="checkbox" onchange="countSelectedCheckboxes()">
@@ -274,20 +275,44 @@
                 <br>
                 <br>
                 <br>
-                <button style=" font-size: medium; background-color: lightseagreen; border-radius: 7px;" type="submit" id="mySubmit"> submit </button>
+                <div id="selectedCountLabel" style="font-weight: bold; display: block; margin-bottom: 10px;"></div>
+
+                <div id="confirmationMessage" style="
+                 display: none;
+                 margin-top: 20px;
+                 padding: 15px;
+                 background-color: #d0f0d6;
+                 color: #1a4d2e;
+                 border: 2px solid #66bb6a;
+                 border-radius: 8px;
+                 font-weight: bold;
+                 text-align: center;
+                 ">
+                 Σας περιμένουμε στο γυμναστήριό μας!
+                </div>
+
+                <button
+                   id="mySubmit"
+                   type="button"
+                   style="font-size: medium; background-color: rgb(76, 182, 220); border-radius: 7px; margin-top: 20px;">
+                   submit
+                </button>
+
+
                 <br>
                 <br>
-
-
-
-
-
+               
 
 
 
 
 
             </div>
+
+
+
+
+            
            
 
 
@@ -316,7 +341,9 @@
                 });
                 var selectedCountLabel=document.getElementById("selectedCountLabel");
 
-                selectedCountLabel.innerHTML="Έχετε επιλέξει τόσα προγράμματα : "+count;
+                selectedCountLabel.innerHTML = `Έχετε επιλέξει <span style="text-decoration: underline;">${count}</span> προγράμματα`;
+
+
                 if(count==0){
                     selectedCountLabel.classList.add("hidden");
                 }
@@ -326,15 +353,23 @@
 
 
             }
-
-
-
-
-
         </script>
        
 
+         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+               const submitBtn = document.getElementById("mySubmit");
+               const message = document.getElementById("confirmationMessage");
 
+               if (submitBtn && message) {
+                 submitBtn.addEventListener("click", function () {
+                    message.style.display = "block";
+                 });
+                } else {
+                  console.log("Κάποιο ID δεν βρέθηκε στο DOM.");
+                }
+              });
+         </script>
 
 
     </body>
