@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Δημιουργία Λογαριασμού</title>
   <style>
-    /* Reset */
+    
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
 
-    /* Body και Header */
+    
     body { background-color: #f5f8fa; }
     header {
       background-color: rgb(76, 182, 220);
@@ -23,7 +23,7 @@
      border-radius: 10px;
     }
 
-    /* Κύριο Μέρος */
+    
     main {
       display: flex;
       justify-content: center;
@@ -51,7 +51,7 @@
       color: #333;
     }
 
-    /* Κάθε σειρά φόρμας */
+    
     .form-row {
       display: flex;
       align-items: center;
@@ -75,7 +75,7 @@
       border-color: rgb(76, 182, 220);
     }
 
-    /* Submit */
+    
     .submit-btn {
       width: 100%;
       padding: 14px;
@@ -89,10 +89,10 @@
     }
     .submit-btn:hover { opacity: 0.9; }
 
-    /* Error messages */
+    
     .error { color: #c00; margin-bottom: 15px; }
 
-    /* Footer (προαιρετικό) */
+    
    
   </style>
 </head>
@@ -105,7 +105,7 @@
   <main>
     <div class="form-container">
 
-      <!-- αν έχεις message από form.non_field_errors -->
+      
       {% if form.non_field_errors %}
         <div class="error">
           {% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}
@@ -166,7 +166,7 @@
   </main>
   <script>
 
-  // Επίσης, όταν ξαναμπεί η σελίδα από cache ή reload
+  
   window.addEventListener('pageshow', function(event) {
     if (event.persisted || (performance.getEntriesByType('navigation')[0]||{}).type === 'reload') {
       const f = document.getElementById('signupForm');
