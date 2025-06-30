@@ -12,11 +12,10 @@ class Subscription(models.Model):
 
 class Payment(models.Model):
     tran_id = models.AutoField(primary_key=True)
-    # Όπως στο διάγραμμα, κάθε Payment συνδέεται με μία Subscription (FK)
     sub = models.ForeignKey(
         Subscription,
         on_delete=models.CASCADE,
-        db_column="sub_id",      # για να μοιάζει το όνομα με το διάγραμμα
+        db_column="sub_id",     
         related_name="payments"
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -26,9 +25,7 @@ class Payment(models.Model):
         return f"Payment {self.tran_id} - €{self.amount}"
 
 
-#
-# 3) Member
-#
+
 class Member(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
@@ -39,7 +36,7 @@ class Member(models.Model):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=128)
-    # Στο διάγραμμα, Member έχει ένα FK προς Subscription (sub_id)
+    
     sub = models.ForeignKey(
         Subscription,
         on_delete=models.SET_NULL,
@@ -48,7 +45,7 @@ class Member(models.Model):
         db_column="sub_id",
         related_name="members"
     )
-    # Και ένα FK προς Payment (tran_id)
+    
     tran = models.ForeignKey(
         Payment,
         on_delete=models.SET_NULL,
@@ -62,9 +59,7 @@ class Member(models.Model):
         return self.username
 
 
-#
-# 4) Employee  (για να είναι superclass του Secretary/Coach)
-#
+
 class Employee(models.Model):
     em_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
@@ -77,39 +72,33 @@ class Employee(models.Model):
         return f"{self.name} {self.surname}"
 
 
-#
-# 5) Secretary κληρονομεί από Employee
-#
+
 class Secretary(Employee):
-    # Αν δεν χρειάζεται επιπλέον πεδία, απλώς pass
+
     class Meta:
         verbose_name = "Secretary"
         verbose_name_plural = "Secretaries"
 
 
-#
-# 6) Coach κληρονομεί από Employee
-#
+
 class Coach(Employee):
-    # Αν δεν χρειάζεται επιπλέον πεδία, απλώς pass
+    
     class Meta:
         verbose_name = "Coach"
         verbose_name_plural = "Coaches"
 
 
-#
-# 7) Class  (ιδιαίτερη προσοχή: ο Coach είναι FK εδώ)
-#
+
 class Class(models.Model):
     cl_id = models.AutoField(primary_key=True)
-    # Κάθε μάθημα (Class) συνδέεται με έναν Coach (FK)
+    
     em = models.ForeignKey(
         Coach,
         on_delete=models.CASCADE,
         db_column="em_id",
         related_name="classes"
     )
-    dates = models.DateTimeField()        # ή DateField, ανάλογα με το πόσο ακριβές θέλεις
+    dates = models.DateTimeField()       
     name = models.CharField(max_length=100)
     capacity = models.IntegerField()
     description = models.TextField(blank=True)
@@ -118,19 +107,17 @@ class Class(models.Model):
         return f"{self.name} ({self.dates.date()})"
 
 
-#
-# 8) History
-#
+
 class History(models.Model):
     h_id = models.AutoField(primary_key=True)
-    # FK προς Member
+    
     user = models.ForeignKey(
         Member,
         on_delete=models.CASCADE,
         db_column="user_id",
         related_name="histories"
     )
-    # FK προς Class
+    
     cl = models.ForeignKey(
         Class,
         on_delete=models.CASCADE,
