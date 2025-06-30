@@ -9,8 +9,8 @@ class MemberSignupForm(forms.Form):
     phone_num        = forms.CharField(max_length=15, label="Τηλέφωνο")
     email            = forms.EmailField(label="Email")
     username         = forms.CharField(max_length=20, label="Όνομα χρήστη")
-    password         = forms.CharField(widget=forms.PasswordInput, label="Κωδικός")
-    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Επιβεβαίωση Κωδικού")
+    password         = forms.CharField(min_length=8, widget=forms.PasswordInput, label="Κωδικός")
+    password_confirm = forms.CharField(min_length=8, widget=forms.PasswordInput, label="Επιβεβαίωση Κωδικού")
 
     def clean_username(self):
         username = self.cleaned_data['username']
