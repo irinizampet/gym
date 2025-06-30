@@ -5,39 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Αγορά Προπονήσεων</title>
   <style>
-    /* Γενικές ρυθμίσεις */
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { background-color: #f5f8fa; color: #333; line-height: 1.4; display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* Header */
     header { background-color: rgb(76, 182, 220); padding: 20px; text-align: center; }
     header h1 { display: inline-block; background-color: #f5f8fa; color: #333; padding: 8px 20px; border: 4px solid rgb(76, 182, 220); border-radius: 8px; font-size: 1.8rem; }
 
-    /* Main content */
     main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 20px; }
     .form-container { width: 100%; max-width: 400px; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .form-container h2 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; }
 
-    /* Κουμπιά πακέτων */
     .packages { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
     .packages button { width: 100%; padding: 12px; font-size: 1rem; border: 2px solid rgb(76, 182, 220); border-radius: 12px; background-color: #f5f8fa; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
     .packages button:hover { background-color: rgb(76, 182, 220); color: #fff; }
     .packages button.active { background-color: rgb(76, 182, 220); color: #fff; }
 
-    /* Inputs */
     .form-container input[type="text"],
     .form-container input[type="tel"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 4px solid #b3e5fc; border-radius: 25px; font-size: 1rem; }
     .form-container input::placeholder { color: #aaa; }
 
-    /* Submit button */
     .form-container .submit-btn { width: 100%; padding: 12px; font-size: 1rem; background-color:rgb(76, 182, 220); border: none; border-radius: 25px; color: #fff; cursor: pointer; transition: opacity 0.2s; }
     .form-container .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .form-container .submit-btn:hover:not(:disabled) { opacity: 0.9; }
 
-    /* Success message */
     .success-message { display: none; margin-top: 20px; padding: 15px; border: 2px solid #4CAF50; background-color: #e8f5e9; color: #2e7d32; border-radius: 8px; text-align: center; font-weight: bold; }
 
-    /* Footer */
     footer { background-color: rgb(76, 182, 220); text-align: center; padding: 12px 0; color: #fff; font-size: 0.9rem; }
   </style>
 </head>
@@ -79,7 +71,6 @@
   </footer>
 
   <script>
-    // Επιλέξιμο πακέτο
     const packageButtons = document.querySelectorAll('.packages button');
     const selectedInput = document.getElementById('selectedPackage');
     let selectedValue = null;
@@ -94,7 +85,6 @@
       });
     });
 
-    // Έλεγχος αριθμού κάρτας
     const cardInput = document.getElementById('cardnumber');
     const submitBtn = document.getElementById('submitBtn');
     const form = document.getElementById('purchaseForm');
@@ -109,15 +99,11 @@
       submitBtn.disabled = !(isCardValid && isPackageSelected);
     }
 
-    // Handle form submission
     form.addEventListener('submit', e => {
       e.preventDefault();
       if (!submitBtn.disabled) {
-        // Κρύψε τη φόρμα
         form.style.display = 'none';
-        // Κρύψε τα πακέτα
         document.querySelector('.packages').style.display = 'none';
-        // Δείξε μήνυμα επιτυχίας
         successMsg.style.display = 'block';
       }
     });

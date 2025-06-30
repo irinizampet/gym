@@ -12,7 +12,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('περιβαλλονχρηστη')  # άλλαξέ το με το όνομα της σελίδας μετά το login
+            return redirect('περιβαλλονχρηστη')  
         else:
             messages.error(request, 'Λάθος στοιχεία σύνδεσης')
     return render(request, 'login.html')
@@ -29,7 +29,7 @@ def signup_view(request):
         if form.is_valid():
             form.save()
             return redirect('login')
-        # αν δεν είναι valid, θα περάσει ξανά στο render με τα form.errors
+        
     else:
         form = MemberSignupForm()
 
@@ -47,7 +47,7 @@ def password_reset_view(request):
             email = form.cleaned_data['email']
             member = Member.objects.get(email=email)
 
-            # Νέος προσωρινός κωδικός (ή βάλε σταθερό: 'newpass123')
+            
             new_password = f"newpass{random.randint(1000, 9999)}"
             member.password = make_password(new_password)
             member.save()
@@ -103,10 +103,7 @@ def profil_view(request):
     return render(request, 'profil.html')
 
 def profil_view(request):
-    """
-    Παίρνει το αντικείμενο Member για τον τρέχοντα χρήστη
-    και το στέλνει στο template.
-    """
+    
     try:
         member = Member.objects.get(username=request.user.username)
     except Member.DoesNotExist:
@@ -114,3 +111,4 @@ def profil_view(request):
     return render(request, 'profil.html', {
         'member': member
     })
+
