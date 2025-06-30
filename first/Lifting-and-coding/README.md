@@ -1,2 +1,0 @@
-# Lifting and coding
- 
