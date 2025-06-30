@@ -34,13 +34,13 @@ class MemberSignupForm(forms.Form):
 
     def clean_phone_num(self):
         phone = self.cleaned_data['phone_num']
-        # Προαιρετικά: απομάκρυνε μη ψηφία
+        
         normalized = ''.join(ch for ch in phone if ch.isdigit())
         if Member.objects.filter(phone_num__iexact=normalized).exists():
             raise forms.ValidationError(
                 f"Ο αριθμός τηλεφώνου «{phone}» χρησιμοποιείται ήδη."
             )
-        # Αν θες να αποθηκεύσεις μόνο τα ψηφία:
+        
         return normalized
 
     def clean(self):
@@ -53,17 +53,17 @@ class MemberSignupForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data
-        # Δημιουργία built-in User
+        
         user = User.objects.create_user(
             username=data['username'],
             email=data['email'],
             password=data['password']
         )
-        # Δημιουργία Member
+        
         member = Member(
             name      = data['name'],
             surname   = data['surname'],
-            phone_num = data['phone_num'],  # ή data['phone_num']=normalized
+            phone_num = data['phone_num'],  
             email     = data['email'],
             username  = data['username'],
             password  = user.password
